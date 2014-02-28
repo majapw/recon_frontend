@@ -94,6 +94,7 @@ function(app, Ref) {
       app.on("debate:activate", this.activateDebate, this);
       app.on("debate:deactivate", this.deactivateDebate, this);
       app.on("landing:activate", this.activatePage, this);
+      app.on("landing:enter_debate", this.enterDebate, this);
     },
     
     cleanup: function() {
@@ -129,7 +130,7 @@ function(app, Ref) {
     },
     
     enterDebate: function(num) {
-	  	this.transcript.setHeading("DEBATE "+(num+1));
+	  this.transcript.setHeading("DEBATE "+(num+1));
       // Playback messages.
       if (!app.live) {
 	    //if (app.router.qs.playback) {

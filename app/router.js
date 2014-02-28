@@ -129,7 +129,7 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			// I'm sure there's a less stupid way to do this.
       //window.setTimeout(function() {	
       // Yup, there is!
-      landingView.setElement("#landing").render(); 
+      //landingView.setElement("#landing").render(); 
        
       // Load from static file.
       if (this.qs.docName) {
@@ -313,7 +313,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
             if (hr) {
               hr.style.background = "-webkit-linear-gradient(left, rgb(64,180,230) " +
                 total + "%, rgb(78, 78, 74) " + (total) + "%)";
-              if (total == 100) app.trigger("landing:activate");
+              if (total == 100) {
+                app.trigger("landing:activate");
+              }
             }
           }, 100);
         };
@@ -329,9 +331,9 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	    		    	
     	} else {
 		    	
-		        console.log("fetching");
+		    console.log("fetching");
 	      // XHR.
-	      [0, 1, 2].forEach(function(i) {
+	      (function(i) {
 	
 		      var messages = new XMLHttpRequest();
 		
@@ -358,12 +360,17 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 			      } else {
 				      app.trigger("debate:deactivate", i);
 			      }
+
+            if (i == 1) {
+              app.trigger("navigation:goLive", 600);
+              app.trigger("landing:enter_debate", i);
+            }
 		      };
 		
 		
 		      // Send!
 		      messages.send();
-		    });
+		    })(1);
 		    
 		    
 			  /*var markup = new XMLHttpRequest();
