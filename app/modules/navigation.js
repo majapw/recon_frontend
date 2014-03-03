@@ -71,6 +71,8 @@ function(app) {
       app.on("transcript:scrollDetach", this.liveScrollOff, this);
       app.on("transcript:scrollAttach", this.liveScrollOn, this);
       app.on("app:setLive", this.handleLive, this);
+      app.on("debate:resetParameters", this.resetParameters, this);
+
       
       this.landing = null;
       this.compTimeoutIndex = 0;	// Used for cancelling previous comparison hide timeouts.
@@ -89,6 +91,15 @@ function(app) {
 	    app.off(null, null, this);
     },
     
+    resetParameters: function() {
+      app.trigger("navigation:goLive", 600);
+
+      this.exitComparison();
+
+      $("#navPlaybackButton").text("1x");
+      app.modifier = 1;
+    },
+
     setDebateNumber : function(n) {
       n -= 1;
       // Set the debate number globally.
@@ -261,7 +272,7 @@ function(app) {
     },
     
     enterComparison: function(event, tag) {
-		  event.stopPropagation();
+		  //event.stopPropagation();
     	app.mode = "comparison";  
     	
       var dist = $("#transcript > .wrapper").offsetHeight;
@@ -301,7 +312,9 @@ function(app) {
       var elt = $('#comparisons').find('.compareContainer.'+tag).parent();
       //$("#comparisons > .wrapper").stop().animate({ scrollTop: elt.position().top}, 1.0);
       //console.log("Comparison jump to " + tag + " : " + elt.position().top);      
-      $("#comparisons > .wrapper").scrollTop(elt.position().top);
+      if (elt.position() != null) {
+        $("#comparisons > .wrapper").scrollTop(elt.position().top);
+      }
 
 
       // Switch skrollr scroll element to comparisons container.
@@ -310,7 +323,10 @@ function(app) {
     },
     
     exitComparison: function(event) {
-    	event.stopPropagation();
+      if (event != null) {
+      	event.stopPropagation();
+      }
+
     	app.mode = "transcript";
       $("#transcript > .wrapper").removeClass("fade");
       $("#comparisons > .wrapper").removeClass("active");

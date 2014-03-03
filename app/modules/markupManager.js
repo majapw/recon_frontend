@@ -88,6 +88,7 @@ function(app, Overlay, Ref) {
 	      this.get("catOverlays")[cat].render();
       }
       app.on("debate:reset", this.clearMarkup, this);
+      app.on("debate:resetParameters", this.closeCatOverlays, this);
 	  },
 	  
 	  cleanup: function() {

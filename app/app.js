@@ -130,7 +130,9 @@ function($, _, Backbone, eio) {
 
     // Which debate do we load for the exhibition
     // Debate 1, 2, or 3? 
-    exhibitionDebate: 2
+    exhibitionDebate: 2,
+    resetTime: null,
+    resetTimeInterval: 15 * 1000 // time in milliseconds before the transcript is reset to its original state
   };
 
   // Localize or create a new JavaScript Template object.

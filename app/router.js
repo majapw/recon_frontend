@@ -146,6 +146,17 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 	      app.loadDoc = true;
 	    }
 
+      var setNewResetTime = function() {
+        var now = new Date();
+        now.setTime(now.getTime() + app.resetTimeInterval);
+        app.resetTime = now;
+        console.log("we now have a new reset time!");
+      }
+
+      var enterComparison = function(event, text) {
+        navigationView.enterComparison(event, text);
+        setNewResetTime();
+      }
 
       //app.on("ready", function() {
         navigationView.setElement("#navigation").render();
@@ -163,18 +174,16 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           var comparisons = $("#comparisons > .wrapper");
           var bigWords = $("#bigWords");
 
-          transcript.on("click", ".transcriptSpeaker", function(event) {navigationView.enterComparison(event, "megalist"); });
-          //transcript.on("click", ".sentimentClick", function() {navigationView.enterComparison(event, "POSITIVITY");});
-          transcript.on("click", ".posemo", function(event) {navigationView.enterComparison(event, "POSITIVITY"); });
-          transcript.on("click", ".negemo", function(event) {navigationView.enterComparison(event, "NEGATIVITY"); });
+          transcript.on("click", ".transcriptSpeaker", function(event) { enterComparison(event, "megalist"); });
+          transcript.on("click", ".posemo", function(event) { enterComparison(event, "POSITIVITY"); });
+          transcript.on("click", ".negemo", function(event) { enterComparison(event, "NEGATIVITY"); });
           
-//          transcript.on("click", ".traitClick", function() {navigationView.enterComparison(event, "TRUTHY");});
-          transcript.on("click", ".ENRAGED", function(event) {navigationView.enterComparison(event, "RAGE");});
-          transcript.on("click", ".DETACHED", function(event) {navigationView.enterComparison(event, "SCRIPTED");});
-          transcript.on("click", ".SUICIDAL", function(event) {navigationView.enterComparison(event, "SUICIDAL");});
-          transcript.on("click", ".HONEST", function(event) {navigationView.enterComparison(event, "TRUTHY");});
+          transcript.on("click", ".ENRAGED", function(event) { enterComparison(event, "RAGE");});
+          transcript.on("click", ".DETACHED", function(event) { enterComparison(event, "SCRIPTED");});
+          transcript.on("click", ".SUICIDAL", function(event) { enterComparison(event, "SUICIDAL");});
+          transcript.on("click", ".HONEST", function(event) { enterComparison(event, "TRUTHY");});
           
-          transcript.on("click", ".countClick", function(event) {navigationView.enterComparison(event, "megalist");});
+          transcript.on("click", ".countClick", function(event) { enterComparison(event, "megalist");});
           
           var markupNames = ['posemo', 'negemo', 'certain', 'tentat', 'number', 'quote'];          
           transcript.on("click", ".catMarkup", function(ev) {
@@ -204,12 +213,19 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
           	}, 30000);
           	*/
           	markupManager.openCatOverlay(markupNames[i], 30000);          	
+            setNewResetTime();
           });
           
           //transcript.on("click", function() {markupManager.closeCatOverlays();});
           //bigWords.on("click", function() {markupManager.closeCatOverlays();});
-          $('body').on("click", function() {markupManager.closeCatOverlays();});
-          comparisons.on("click", function(event) {navigationView.exitComparison(event); });
+          $('body').on("click", function() {
+            markupManager.closeCatOverlays();
+            setNewResetTime();
+          });
+          comparisons.on("click", function(event) {
+            navigationView.exitComparison(event);
+            setNewResetTime();
+          });
           
         })();
       //});

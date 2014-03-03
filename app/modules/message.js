@@ -97,6 +97,11 @@ function(app) {
   		var startMsg = this.at(start);
 
       function runMessage(i) {
+        if (app.resetTime != null && app.resetTime < new Date()) {
+          app.trigger("debate:resetParameters");
+          app.resetTime = null;
+        }
+
         var messages = this;
         var msg = this.at(i);
         var lastMsg = (i == start) ? startMsg : this.at(i-1);
