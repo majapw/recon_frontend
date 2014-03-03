@@ -126,7 +126,11 @@ function($, _, Backbone, eio) {
 	  lastDebateViewed: -1, // -1 if nothing has been watched yet
 
     // Buffer incoming messages when replay is happening.
-    bufferedMessages: []
+    bufferedMessages: [],
+
+    // Which debate do we load for the exhibition
+    // Debate 1, 2, or 3? 
+    exhibitionDebate: 2
   };
 
   // Localize or create a new JavaScript Template object.

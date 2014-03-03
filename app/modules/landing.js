@@ -94,7 +94,7 @@ function(app, Ref) {
       app.on("debate:activate", this.activateDebate, this);
       app.on("debate:deactivate", this.deactivateDebate, this);
       app.on("landing:activate", this.activatePage, this);
-      app.on("landing:enter_debate", this.enterDebate, this);
+      app.on("landing:enterDebate", this.enterDebate, this);
     },
     
     cleanup: function() {

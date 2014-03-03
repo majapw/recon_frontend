@@ -334,7 +334,6 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 		    console.log("fetching");
 	      // XHR.
 	      (function(i) {
-	
 		      var messages = new XMLHttpRequest();
 		
 		      // Opens.
@@ -361,16 +360,14 @@ function(app, UniquePhrase, Speaker, Comparison, Message, Transcript, Navigation
 				      app.trigger("debate:deactivate", i);
 			      }
 
-            if (i == 1) {
-              app.trigger("navigation:goLive", 600);
-              app.trigger("landing:enter_debate", i);
-            }
+            app.trigger("navigation:goLive", 600);
+            app.trigger("landing:enterDebate", i);
 		      };
 		
 		
 		      // Send!
 		      messages.send();
-		    })(1);
+		    })(app.exhibitionDebate - 1);
 		    
 		    
 			  /*var markup = new XMLHttpRequest();

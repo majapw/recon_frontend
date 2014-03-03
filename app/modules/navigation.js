@@ -106,8 +106,8 @@ function(app) {
       } else if(e.target.id == 'goLive') {
         app.trigger("navigation:goLive", 600);
       } else if(e.target.id == 'reconTitle'){
-				if (app.mode == "comparison") this.exitComparison(e);
-	      this.landing.enter();
+				//if (app.mode == "comparison") this.exitComparison(e);
+	      //this.landing.enter();
       } else if (e.target.id == 'navTranscriptButton') {
 	      this.exitComparison(e);
       } else if (e.target.id == 'navComparisonButton') {
@@ -209,11 +209,13 @@ function(app) {
 	    $('#navLeft').css("transform", "translateX(5px) translateY(-5px) rotate(90deg)");
 	    $('#navLeftButtons').css("transform", "translateX(0px) translateY(0px) rotate(90deg)");
 	    $('#navRight').css("transform", "translateX(0px) translateY(-5px) rotate(-90deg)");
-	    if (first) {
+	    
+      // Turn off instructions 
+      /*if (first) {
 	    	console.log("first");
 	    	$('#navInstructions').css("transform", "translateX(0%)");
 		    instructionTimeout = window.setTimeout(function(){ this.hideInstructions(); }, 18000, this);
-		  }
+		  }*/
 		  // Update date and debate number on nav bar.
 		  if(num==0){
 		   $('#navDebateNum').html("1st Debate");

@@ -93,36 +93,39 @@ function(app) {
     
     	this.stopPlayback();
     	
-    	var n = restart ? 0 : (this.lastMessage+1);
-    	console.log("start with message "+n+restart);
-  		var startMsg = this.at(n);
+    	var start = restart ? 0 : (this.lastMessage+1);
+  		var startMsg = this.at(start);
 
       function runMessage(i) {
         var messages = this;
         var msg = this.at(i);
-        
-        var lastMsg = (i == n) ? startMsg : this.at(i-1);
+        var lastMsg = (i == start) ? startMsg : this.at(i-1);
+
+        if (i == messages.length) {
+          msg = startMsg; i = 0;
+          setTimeoutEvents.push(setTimeout(function() {
+            app.trigger("debate:reset");
+            app.trigger("message:" + msg.get("type"), { msg: msg.attributes });
+            runMessage.call(messages, i+1);
+            this.lastMessage = i+1;
+          }, 3000, this));
+        }
 
   			diff = (msg.get("timeDiff") - lastMsg.get("timeDiff"));
-
         if (app.modifier) {
           diff = diff / app.modifier;
         }
-  			if (diff >= 0) {
-	  			setTimeoutEvents.push(setTimeout(function() {
-            app.trigger("message:" + msg.get("type"), { msg: msg.attributes });
 
-            //if (messages.length <= i+1) {
-              runMessage.call(messages, i+1);
-              this.lastMessage = i+1;
-              //console.log(this.lastMessage+" last");
-            //}
+        if (diff >= 0) {
+    			setTimeoutEvents.push(setTimeout(function() {
+            app.trigger("message:" + msg.get("type"), { msg: msg.attributes });
+            runMessage.call(messages, i+1);
+            this.lastMessage = i+1;
           }, diff, this));
-	  			//console.log("settimeout "+msg.get("word")+" "+diff);
-	  		}
+        }
       }
 
-      runMessage.call(this, n);
+      runMessage.call(this, start);
 
   		//this.each( function(msg) {
   		//	diff = diff || msg.get("timeDiff") - startMsg.get("timeDiff");
